@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class Repository {
     private List<Post> postList = new ArrayList<>();
-    private static long postCounter;
+    private static volatile long postCounter;
 
     public Repository() {
         postList.add(new Post("test", 12));
@@ -19,17 +19,10 @@ public class Repository {
     }
 
     public Optional<Post> getById(long id) {
-//        return postList.stream().filter(p -> p.getId() == id).findFirst();
-        Post searchPost = null;
-        for (Post post : postList) {
-            if (post.getId() == id){
-                searchPost = post;
-            }
-        }
-        return Optional.ofNullable(searchPost);
+        return postList.stream().filter(p -> p.getId() == id).findFirst();
     }
 
-    public Post save(Post post) {
+    public synchronized Post save(Post post) {
         if (post.getId() == 0) {
             postCounter++;
             postList.add(new Post(post.getData(), postCounter));
