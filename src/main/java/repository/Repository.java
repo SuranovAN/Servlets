@@ -27,6 +27,7 @@ public class Repository {
         } else {
             Optional<Post> tmpPost = getById(post.getId());
             if (tmpPost.isPresent()) {
+                postMap.put(post.getId(), post.getData());
                 tmpPost.ifPresent(value -> value.setData(post.getData()));
             }
         }
