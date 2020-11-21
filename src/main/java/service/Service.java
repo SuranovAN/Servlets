@@ -13,15 +13,7 @@ public class Service {
         this.repository = repository;
     }
 
-//    public List<Post> all() {
-//        return repository.all();
-//    }
-
-//    public Map<Long, String> all() {
-//        return repository.all();
-//    }
-
-    public Map<Long, String> all() {
+    public List<Post> all() {
         return repository.all();
     }
 

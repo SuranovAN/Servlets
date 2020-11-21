@@ -20,8 +20,7 @@ public class Controller {
         resp.setContentType(APPLICATION_JSON);
         final var data = service.all();
         final var gson = new Gson();
-        final var tmpList = data.entrySet().stream().map(p -> new Post(p.getValue(), p.getKey())).toArray();
-        resp.getWriter().print(gson.toJson(tmpList));
+        resp.getWriter().print(gson.toJson(data));
     }
 
     public void getById(long id, HttpServletResponse resp) throws ClassNotFoundException, IOException {
