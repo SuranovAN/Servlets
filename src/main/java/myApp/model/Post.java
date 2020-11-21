@@ -1,4 +1,4 @@
-package model;
+package myApp.model;
 
 public class Post {
     private String data;

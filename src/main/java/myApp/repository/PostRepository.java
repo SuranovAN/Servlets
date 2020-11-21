@@ -1,15 +1,17 @@
-package repository;
+package myApp.repository;
 
-import model.Post;
+import myApp.model.Post;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Repository {
+@Repository
+public class PostRepository {
     private Map<Long, String> postMap = new ConcurrentHashMap<>();
 
-    public Repository() {
+    public PostRepository() {
         postMap.put(12L, "newMap");
     }
 
