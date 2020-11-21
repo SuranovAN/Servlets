@@ -4,6 +4,7 @@ import model.Post;
 import repository.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 public class Service {
     private final Repository repository;
@@ -12,7 +13,15 @@ public class Service {
         this.repository = repository;
     }
 
-    public List<Post> all() {
+//    public List<Post> all() {
+//        return repository.all();
+//    }
+
+//    public Map<Long, String> all() {
+//        return repository.all();
+//    }
+
+    public Map<Long, String> all() {
         return repository.all();
     }
 

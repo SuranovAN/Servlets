@@ -2,33 +2,31 @@ package repository;
 
 import model.Post;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Repository {
-    private List<Post> postList = new ArrayList<>();
-    private static volatile long postCounter;
+    private Map<Long, String> postMap = new ConcurrentHashMap<>();
 
     public Repository() {
-        postList.add(new Post("test", 12));
+        postMap.put(12L, "newMap");
     }
 
-    public List<Post> all() {
-        return postList;
+    public Map<Long, String> all(){
+        return postMap;
     }
 
     public Optional<Post> getById(long id) {
-        return postList.stream().filter(p -> p.getId() == id).findFirst();
+        return Optional.of(new Post(postMap.get(id), id));
     }
 
-    public synchronized Post save(Post post) {
+    public Post save(Post post) {
         if (post.getId() == 0) {
-            postCounter++;
-            postList.add(new Post(post.getData(), postCounter));
+            postMap.put(postMap.size() + 1L, post.getData());
         } else {
             Optional<Post> tmpPost = getById(post.getId());
-            if (tmpPost.isPresent()){
+            if (tmpPost.isPresent()) {
                 tmpPost.ifPresent(value -> value.setData(post.getData()));
             }
         }
@@ -36,6 +34,6 @@ public class Repository {
     }
 
     public void removeById(long id) {
-        postList.remove(getById(id).get());
+        postMap.remove(id);
     }
 }
