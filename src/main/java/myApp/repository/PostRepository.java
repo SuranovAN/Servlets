@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
 public class PostRepository {
     private Map<Long, String> postMap = new ConcurrentHashMap<>();
 
@@ -20,16 +19,18 @@ public class PostRepository {
     }
 
     public Optional<Post> getById(long id) {
-        return Optional.of(new Post(postMap.get(id), id));
+        if(postMap.containsKey(id)) {
+            return Optional.of(new Post(postMap.get(id), id));
+        }
+        return Optional.empty();
     }
 
     public Post save(Post post) {
         if (post.getId() == 0) {
             postMap.put(postMap.size() + 1L, post.getData());
         } else {
-            Optional<Post> tmpPost = getById(post.getId());
-            if (tmpPost.isPresent()) {
-                tmpPost.ifPresent(value -> value.setData(post.getData()));
+            if(getById(post.getId()).isPresent()){
+                postMap.put(post.getId(), post.getData());
             }
         }
         return post;
