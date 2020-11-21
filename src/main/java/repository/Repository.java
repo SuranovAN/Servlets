@@ -18,17 +18,18 @@ public class Repository {
     }
 
     public Optional<Post> getById(long id) {
-        return Optional.of(new Post(postMap.get(id), id));
+        if(postMap.containsKey(id)) {
+            return Optional.of(new Post(postMap.get(id), id));
+        }
+        return Optional.empty();
     }
 
     public Post save(Post post) {
         if (post.getId() == 0) {
             postMap.put(postMap.size() + 1L, post.getData());
         } else {
-            Optional<Post> tmpPost = getById(post.getId());
-            if (tmpPost.isPresent()) {
+            if(getById(post.getId()).isPresent()){
                 postMap.put(post.getId(), post.getData());
-                tmpPost.ifPresent(value -> value.setData(post.getData()));
             }
         }
         return post;
